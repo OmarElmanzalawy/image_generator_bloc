@@ -11,7 +11,6 @@ class ApiRepo {
   static Future<Uint8List?> generateImage(String prompt)async{
     String url = "https://api.imagepig.com/xl";
     String api_key = dotenv.get("API_KEY");
-    print(api_key);
     
     final Map<String,dynamic> headers = {"Api-Key": api_key};
     final Map<String,dynamic> body = {"prompt": prompt};
@@ -28,7 +27,7 @@ class ApiRepo {
       print('RESONSE: $response');
       final String base64Image = response.data['image_data'];
       print('Generated Image: \n\n $base64Image');
-      
+
       return base64Decode(base64Image);
 
     }
