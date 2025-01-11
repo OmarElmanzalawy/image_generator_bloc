@@ -1,11 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:image_generator_bloc/feature/prompt/ui/create_prompt_screen.dart';
 
 void main() {
-  runApp(const MainApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations(
+    [
+      DeviceOrientation.portraitUp
+    ]).then((_) async{
+      await dotenv.load(fileName: 'assets/.env');
+      runApp(const  MainApp());
+    });
 }
 
 class MainApp extends StatelessWidget {
+  
   const MainApp({super.key});
 
   @override
@@ -14,7 +24,7 @@ class MainApp extends StatelessWidget {
       theme: ThemeData(
         brightness: Brightness.dark,
         scaffoldBackgroundColor: Colors.grey.shade900,
-        appBarTheme: AppBarTheme(backgroundColor: Colors.grey.shade800)
+        appBarTheme: AppBarTheme(backgroundColor: Colors.grey.shade900,elevation: 0)
       ),
       home: CreatePromptScreen()
     );
