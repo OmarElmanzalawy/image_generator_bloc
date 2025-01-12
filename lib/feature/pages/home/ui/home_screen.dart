@@ -67,7 +67,7 @@ class HomeScreen extends StatelessWidget {
                   ),
                   ModeCard(
                     name: 'Faceswap',
-                    // routePath: '/createPrompt',
+                    routePath: '/faceswap',
                     icon: Icons.face_6_outlined,
                   ),
                 ],
