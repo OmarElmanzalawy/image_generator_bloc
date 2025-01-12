@@ -2,7 +2,7 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_generator_bloc/data/repos/api_repo.dart';
-import 'package:image_generator_bloc/feature/prompt/bloc/prompt_bloc.dart';
+import 'package:image_generator_bloc/feature/pages/prompt/bloc/prompt_bloc.dart';
 import 'package:image_generator_bloc/utils/app_utils.dart';
 import 'package:lottie/lottie.dart';
 
@@ -96,15 +96,16 @@ class _CreatePromptScreenState extends State<CreatePromptScreen> {
                             cursorColor: Colors.deepPurple,
                             decoration: InputDecoration(
                               hintText: 'Generate a picture of a cat',
+                              hintStyle: TextStyle(color: Colors.white30),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.all(
-                                  Radius.circular(12),
+                                  Radius.circular(25),
                                 ),
                                 borderSide: BorderSide(color: Colors.grey),
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.all(
-                                  Radius.circular(12),
+                                  Radius.circular(25),
                                 ),
                                 borderSide: BorderSide(
                                   color: Colors.deepPurple,
@@ -151,14 +152,11 @@ class _CreatePromptScreenState extends State<CreatePromptScreen> {
             case PromptGeneratedImageFailure:
               return Column(
                 children: [
-                  const SizedBox(height: 100,),
+                  const SizedBox(height: 100),
                   Icon(Icons.cancel, color: Colors.deepPurple, size: 200),
                   Text(
                     'Something went wrong\n try another prompt',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 8),
@@ -173,21 +171,24 @@ class _CreatePromptScreenState extends State<CreatePromptScreen> {
                             cursorColor: Colors.deepPurple,
                             decoration: InputDecoration(
                               hintText: 'Generate a picture of a cat',
+                              hintStyle: TextStyle(color: Colors.white30),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.all(
-                                  Radius.circular(12),
+                                  Radius.circular(25),
                                 ),
                                 borderSide: BorderSide(color: Colors.grey),
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.all(
-                                  Radius.circular(12),
+                                  Radius.circular(25),
                                 ),
-                                borderSide: BorderSide(color: Colors.deepPurple),
+                                borderSide: BorderSide(
+                                  color: Colors.deepPurple,
+                                ),
                               ),
                             ),
                           ),
-                      
+
                           const SizedBox(height: 15),
                           SizedBox(
                             width: double.maxFinite,
@@ -253,15 +254,16 @@ class _CreatePromptScreenState extends State<CreatePromptScreen> {
                             cursorColor: Colors.deepPurple,
                             decoration: InputDecoration(
                               hintText: 'Generate a picture of a cat',
+                              hintStyle: TextStyle(color: Colors.white30),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.all(
-                                  Radius.circular(12),
+                                  Radius.circular(25),
                                 ),
                                 borderSide: BorderSide(color: Colors.grey),
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.all(
-                                  Radius.circular(12),
+                                  Radius.circular(25),
                                 ),
                                 borderSide: BorderSide(
                                   color: Colors.deepPurple,
@@ -269,6 +271,7 @@ class _CreatePromptScreenState extends State<CreatePromptScreen> {
                               ),
                             ),
                           ),
+
                           const SizedBox(height: 15),
                           SizedBox(
                             width: double.maxFinite,
@@ -283,6 +286,10 @@ class _CreatePromptScreenState extends State<CreatePromptScreen> {
                                 backgroundColor: WidgetStatePropertyAll(
                                   Colors.deepPurple,
                                 ),
+                                foregroundColor: WidgetStatePropertyAll(
+                                  Colors.white,
+                                ),
+                                iconColor: WidgetStatePropertyAll(Colors.white),
                               ),
                               onPressed: () {
                                 // await ApiRepo.generateImage(_promptController.text);
