@@ -35,6 +35,46 @@ class ApiRepo {
       print('Error Fetching the image');
       return null;
     }
+  }
+
+  static Future<Uint8List?> faceSwap({required String sourceUrl,required String targetUrl})async{
+
+    print('Source: $sourceUrl \n Target: $targetUrl');
+
+    String url = "https://api.imagepig.com/faceswap";
+    String api_key = dotenv.get("API_KEY");
+
+    
+
+    Map<String,dynamic> headers = {"Api-Key": api_key};
+    Map<String,dynamic> body = {
+      'source_image_url': "https://$sourceUrl",
+      'target_image_url': "https://$targetUrl",
+    };
+
+    Dio dio = Dio();
+    dio.options = BaseOptions(
+      headers: headers,
+    );
+
+    final response = await dio.post(url,data: body);
+
+    if(response.statusCode == 200){
+      print("SUCCESSFULL SWAP!");
+      print("Response: $response");
+
+      final String base64Image = response.data['image_data'];
+
+      return base64Decode(base64Image);
+    }
+    else{
+      print("SOMETHING WRONG HAPPENED");
+      print("Status Code: ${response.statusCode}");
+      print("Response: $response");
+      return null;
+    }
 
   }
+
+
 }

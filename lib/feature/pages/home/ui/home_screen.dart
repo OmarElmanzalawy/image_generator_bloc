@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:image_generator_bloc/feature/pages/home/ui/widgets/mode_card.dart';
+import 'package:image_generator_bloc/feature/widgets/image_result_widget.dart';
+import 'package:image_generator_bloc/feature/widgets/loading_widget.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});

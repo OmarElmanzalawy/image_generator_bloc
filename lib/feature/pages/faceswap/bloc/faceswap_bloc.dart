@@ -1,6 +1,8 @@
 import 'dart:async';
+import 'dart:typed_data';
 
 import 'package:bloc/bloc.dart';
+import 'package:image_generator_bloc/data/repos/api_repo.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:meta/meta.dart';
 
@@ -16,6 +18,7 @@ class FaceswapBloc extends Bloc<FaceswapEvent, FaceswapState> {
   FaceswapBloc() : super(FaceswapInitial()) {
     on<TargetImageClickedEvent>(targetImageClickedEvent);
     on<SourceImageClickedEvent>(sourceImageClickedEvent);
+    on<FaceswapGenerateButtonClickEvent>(faceswapGenerateButtonClickEvent);
   }
 
   FutureOr<void> targetImageClickedEvent(TargetImageClickedEvent event, Emitter<FaceswapState> emit) async{
@@ -43,5 +46,18 @@ class FaceswapBloc extends Bloc<FaceswapEvent, FaceswapState> {
           sourceImagePath: _sourceImagePath,
         ));
       }
+  }
+
+  FutureOr<void> faceswapGenerateButtonClickEvent(FaceswapGenerateButtonClickEvent event, Emitter<FaceswapState> emit) async{
+
+    emit(FaceswapLoadingState());
+    final Uint8List? image = await ApiRepo.faceSwap(sourceUrl: event.sourceImageUrl,targetUrl: event.targetImageUrl);
+    await Future.delayed(Duration(milliseconds: 1500));
+    if(image != null){
+      emit(FaceswapImageGeneratedSuccessState(image: image));
+    }
+    else{
+      emit(FaceswapImageGeneratedFailureState()); 
+    }
   }
 }
