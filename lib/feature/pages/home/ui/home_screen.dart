@@ -81,7 +81,7 @@ class HomeScreen extends StatelessWidget {
                     padding: const EdgeInsets.only(left: 14.0),
                     child: ModeCard(
                       name: 'Background Removal',
-                      // routePath: '/createPrompt',
+                      routePath: '/backgroundRemoval',
                       icon: Icons.wallpaper,
                       width: 360,
                     ),

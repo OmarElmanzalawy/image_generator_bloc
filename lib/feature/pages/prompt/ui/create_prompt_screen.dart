@@ -40,7 +40,12 @@ class _CreatePromptScreenState extends State<CreatePromptScreen> {
   Widget build(BuildContext context) {
     final Size size = MediaQuery.sizeOf(context);
     return Scaffold(
-      appBar: AppBar(centerTitle: true, title: Text('Generate Images🚀')),
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(centerTitle: true,
+       title: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Text('Generate Images'),
+      ),backgroundColor: Colors.transparent,),
       body: BlocConsumer<PromptBloc, PromptState>(
         bloc: promptBloc,
         listener: (context, state) {
@@ -50,273 +55,323 @@ class _CreatePromptScreenState extends State<CreatePromptScreen> {
         builder: (context, state) {
           switch (state.runtimeType) {
             case PromptLoadingImageState:
-              return Column(
+              return Stack(
+
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: FutureBuilder(
-                      future: loadingAnimation,
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState == ConnectionState.done &&
-                            snapshot.hasData) {
-                          return Lottie(composition: snapshot.data);
-                        } else {
-                          return CircularProgressIndicator.adaptive();
-                        }
-                      },
-                    ),
-                  ),
-                  AnimatedTextKit(
-                    animatedTexts: [
-                      WavyAnimatedText(
-                        'Doing Some Magic!',
-                        textStyle: TextStyle(
-                          fontSize: 20,
-                          // letterSpacing: 5,
-                          fontWeight: FontWeight.normal,
-                        ),
-                      ),
-                    ],
-                    isRepeatingAnimation: true,
-                    repeatForever: true,
-                  ),
-                  Expanded(
-                    child: Container(
-                      padding: EdgeInsets.all(20),
-                      alignment: Alignment.topLeft,
-                      //  height: 200,
-                      // color: Colors.red,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Text(
-                            'Enter your prompt',
-                            style: TextStyle(
-                              fontSize: 22,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                          TextField(
-                            controller: _promptController,
-                            cursorColor: Colors.deepPurple,
-                            decoration: InputDecoration(
-                              hintText: 'Generate a picture of a cat',
-                              hintStyle: TextStyle(color: Colors.white30),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(25),
-                                ),
-                                borderSide: BorderSide(color: Colors.grey),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(25),
-                                ),
-                                borderSide: BorderSide(
-                                  color: Colors.deepPurple,
-                                ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 15),
-                          SizedBox(
-                            width: double.maxFinite,
-                            height: 48,
-                            child: ElevatedButton.icon(
-                              style: ButtonStyle(
-                                shape: WidgetStatePropertyAll(
-                                  RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                ),
-                                backgroundColor: WidgetStatePropertyAll(
-                                  Colors.deepPurple,
-                                ),
-                              ),
-                              onPressed: () {
-                                // await ApiRepo.generateImage(_promptController.text);
-                                if (_promptController.text.isNotEmpty) {
-                                  promptBloc.add(
-                                    PromptEnteredEvent(
-                                      prompt: _promptController.text,
-                                    ),
-                                  );
-                                }
-                              },
-                              icon: Icon(Icons.generating_tokens),
-                              label: Text('Generate'),
-                            ),
-                          ),
+                    Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [
+                          Theme.of(context).colorScheme.primary,
+                          Theme.of(context).colorScheme.secondary,
                         ],
                       ),
                     ),
                   ),
-                ],
-              );
-
-            case PromptGeneratedImageFailure:
-              return Column(
-                children: [
-                  const SizedBox(height: 100),
-                  Icon(Icons.cancel, color: Colors.deepPurple, size: 200),
-                  Text(
-                    'Something went wrong\n try another prompt',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 8),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          TextField(
-                            controller: _promptController,
-                            cursorColor: Colors.deepPurple,
-                            decoration: InputDecoration(
-                              hintText: 'Generate a picture of a cat',
-                              hintStyle: TextStyle(color: Colors.white30),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(25),
-                                ),
-                                borderSide: BorderSide(color: Colors.grey),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(25),
-                                ),
-                                borderSide: BorderSide(
-                                  color: Colors.deepPurple,
-                                ),
-                              ),
-                            ),
-                          ),
-
-                          const SizedBox(height: 15),
-                          SizedBox(
-                            width: double.maxFinite,
-                            height: 48,
-                            child: ElevatedButton.icon(
-                              style: ButtonStyle(
-                                shape: WidgetStatePropertyAll(
-                                  RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                ),
-                                backgroundColor: WidgetStatePropertyAll(
-                                  Colors.deepPurple,
-                                ),
-                              ),
-                              onPressed: () {
-                                // await ApiRepo.generateImage(_promptController.text);
-                              },
-                              icon: Icon(Icons.generating_tokens),
-                              label: Text('Generate'),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              );
-            case PromptGeneratedSuccessState:
-              final successState = state as PromptGeneratedSuccessState;
-              return Container(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                  Column(
                   children: [
+                    Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: FutureBuilder(
+                        future: loadingAnimation,
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState == ConnectionState.done &&
+                              snapshot.hasData) {
+                            return Lottie(composition: snapshot.data);
+                          } else {
+                            return CircularProgressIndicator.adaptive();
+                          }
+                        },
+                      ),
+                    ),
+                    AnimatedTextKit(
+                      animatedTexts: [
+                        WavyAnimatedText(
+                          'Doing Some Magic!',
+                          textStyle: TextStyle(
+                            fontSize: 20,
+                            // letterSpacing: 5,
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
+                      ],
+                      isRepeatingAnimation: true,
+                      repeatForever: true,
+                    ),
                     Expanded(
                       child: Container(
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: MemoryImage(successState.image),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                    ),
-
-                    Container(
-                      padding: EdgeInsets.all(20),
-                      alignment: Alignment.topLeft,
-                      height: 200,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Enter your prompt',
-                            style: TextStyle(
-                              fontSize: 22,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                          TextField(
-                            controller: _promptController,
-                            cursorColor: Colors.deepPurple,
-                            decoration: InputDecoration(
-                              hintText: 'Generate a picture of a cat',
-                              hintStyle: TextStyle(color: Colors.white30),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(25),
-                                ),
-                                borderSide: BorderSide(color: Colors.grey),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(25),
-                                ),
-                                borderSide: BorderSide(
-                                  color: Colors.deepPurple,
-                                ),
+                        padding: EdgeInsets.all(20),
+                        alignment: Alignment.topLeft,
+                        //  height: 200,
+                        // color: Colors.red,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text(
+                              'Enter your prompt',
+                              style: TextStyle(
+                                fontSize: 22,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
-                          ),
-
-                          const SizedBox(height: 15),
-                          SizedBox(
-                            width: double.maxFinite,
-                            height: 48,
-                            child: ElevatedButton.icon(
-                              style: ButtonStyle(
-                                shape: WidgetStatePropertyAll(
-                                  RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8),
+                            const SizedBox(height: 8),
+                            TextField(
+                              controller: _promptController,
+                              cursorColor: Colors.deepPurple,
+                              decoration: InputDecoration(
+                                hintText: 'Generate a picture of a cat',
+                                hintStyle: TextStyle(color: Colors.white30),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(25),
+                                  ),
+                                  borderSide: BorderSide(color: Colors.grey),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(25),
+                                  ),
+                                  borderSide: BorderSide(
+                                    color: Colors.deepPurple,
                                   ),
                                 ),
-                                backgroundColor: WidgetStatePropertyAll(
-                                  Colors.deepPurple,
-                                ),
-                                foregroundColor: WidgetStatePropertyAll(
-                                  Colors.white,
-                                ),
-                                iconColor: WidgetStatePropertyAll(Colors.white),
                               ),
-                              onPressed: () {
-                                // await ApiRepo.generateImage(_promptController.text);
-                                if (_promptController.text.isNotEmpty) {
-                                  promptBloc.add(
-                                    PromptEnteredEvent(
-                                      prompt: _promptController.text,
-                                    ),
-                                  );
-                                }
-                              },
-                              icon: Icon(Icons.generating_tokens),
-                              label: Text('Generate'),
                             ),
-                          ),
-                        ],
+                            const SizedBox(height: 15),
+                            SizedBox(
+                              width: double.maxFinite,
+                              height: 48,
+                              child: ElevatedButton.icon(
+                                style: ButtonStyle(
+                                  shape: WidgetStatePropertyAll(
+                                    RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                  ),
+                                  backgroundColor: WidgetStatePropertyAll(
+                                    Colors.deepPurple,
+                                  ),
+                                ),
+                                onPressed: () {
+                                  // await ApiRepo.generateImage(_promptController.text);
+                                  if (_promptController.text.isNotEmpty) {
+                                    promptBloc.add(
+                                      PromptEnteredEvent(
+                                        prompt: _promptController.text,
+                                      ),
+                                    );
+                                  }
+                                },
+                                icon: Icon(Icons.generating_tokens),
+                                label: Text('Generate'),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ],
                 ),
+                ]
+              );
+
+            case PromptGeneratedImageFailure:
+              return Stack(
+                children: [
+                    Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [
+                          Theme.of(context).colorScheme.primary,
+                          Theme.of(context).colorScheme.secondary,
+                        ],
+                      ),
+                    ),
+                  ),
+                  Column(
+                  children: [
+                    const SizedBox(height: 100),
+                    Icon(Icons.cancel, color: Colors.deepPurple, size: 200),
+                    Text(
+                      'Something went wrong\n try another prompt',
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 8),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            TextField(
+                              controller: _promptController,
+                              cursorColor: Colors.deepPurple,
+                              decoration: InputDecoration(
+                                hintText: 'Generate a picture of a cat',
+                                hintStyle: TextStyle(color: Colors.white30),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(25),
+                                  ),
+                                  borderSide: BorderSide(color: Colors.grey),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(25),
+                                  ),
+                                  borderSide: BorderSide(
+                                    color: Colors.deepPurple,
+                                  ),
+                                ),
+                              ),
+                            ),
+                
+                            const SizedBox(height: 15),
+                            SizedBox(
+                              width: double.maxFinite,
+                              height: 48,
+                              child: ElevatedButton.icon(
+                                style: ButtonStyle(
+                                  shape: WidgetStatePropertyAll(
+                                    RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                  ),
+                                  backgroundColor: WidgetStatePropertyAll(
+                                    Colors.deepPurple,
+                                  ),
+                                ),
+                                onPressed: () {
+                                  // await ApiRepo.generateImage(_promptController.text);
+                                },
+                                icon: Icon(Icons.generating_tokens),
+                                label: Text('Generate'),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                ],
+              );
+            case PromptGeneratedSuccessState:
+              final successState = state as PromptGeneratedSuccessState;
+              return Stack(
+                children: [
+                    Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [
+                          Theme.of(context).colorScheme.primary,
+                          Theme.of(context).colorScheme.secondary,
+                        ],
+                      ),
+                    ),
+                  ),
+                  Container(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const SizedBox(height: 120,),
+                      Expanded(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: MemoryImage(successState.image),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                      ),
+                
+                      Container(
+                        padding: EdgeInsets.all(20),
+                        alignment: Alignment.topLeft,
+                        height: 200,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Enter your prompt',
+                              style: TextStyle(
+                                fontSize: 22,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            TextField(
+                              controller: _promptController,
+                              cursorColor: Colors.deepPurple,
+                              decoration: InputDecoration(
+                                hintText: 'Generate a picture of a cat',
+                                hintStyle: TextStyle(color: Colors.white30),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(25),
+                                  ),
+                                  borderSide: BorderSide(color: Colors.grey),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(25),
+                                  ),
+                                  borderSide: BorderSide(
+                                    color: Colors.deepPurple,
+                                  ),
+                                ),
+                              ),
+                            ),
+                
+                            const SizedBox(height: 15),
+                            SizedBox(
+                              width: double.maxFinite,
+                              height: 48,
+                              child: ElevatedButton.icon(
+                                style: ButtonStyle(
+                                  shape: WidgetStatePropertyAll(
+                                    RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                  ),
+                                  backgroundColor: WidgetStatePropertyAll(
+                                    Colors.deepPurple,
+                                  ),
+                                  foregroundColor: WidgetStatePropertyAll(
+                                    Colors.white,
+                                  ),
+                                  iconColor: WidgetStatePropertyAll(Colors.white),
+                                ),
+                                onPressed: () {
+                                  // await ApiRepo.generateImage(_promptController.text);
+                                  if (_promptController.text.isNotEmpty) {
+                                    promptBloc.add(
+                                      PromptEnteredEvent(
+                                        prompt: _promptController.text,
+                                      ),
+                                    );
+                                  }
+                                },
+                                icon: Icon(Icons.generating_tokens),
+                                label: Text('Generate'),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                ],
               );
 
             default:

@@ -8,6 +8,7 @@ import 'package:image_generator_bloc/feature/pages/faceswap/ui/widgets/upload_im
 import 'package:image_generator_bloc/feature/pages/prompt/ui/widgets/icon_action_button.dart';
 import 'package:image_generator_bloc/feature/widgets/image_result_widget.dart';
 import 'package:image_generator_bloc/feature/widgets/loading_widget.dart';
+import 'package:image_generator_bloc/feature/widgets/screen_title.dart';
 
 class FaceswapScreen extends StatelessWidget {
   FaceswapScreen({super.key});
@@ -65,19 +66,7 @@ class FaceswapScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const SizedBox(height: 60),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              "Image Swap ",
-                              style: TextStyle(
-                                fontSize: 28,
-                                fontWeight: FontWeight.w300,
-                              ),
-                            ),
-                            Icon(Icons.swap_horiz, size: 30),
-                          ],
-                        ),
+                       ScreenTitle(title: "Image Swap ", icon: Icons.swap_horiz),
                         const SizedBox(height: 50),
                         Text(
                               'Upload Original Image',

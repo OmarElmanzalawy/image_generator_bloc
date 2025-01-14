@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:image_gallery_saver/image_gallery_saver.dart';
+// import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:image_generator_bloc/feature/constants/app_styles.dart';
 import 'package:image_generator_bloc/feature/pages/prompt/ui/widgets/icon_action_button.dart';
 
@@ -47,7 +47,7 @@ class ImageResultWidget extends StatelessWidget {
                      foregroundColor: Colors.white,
                      iconColor: Colors.white,
                      onpressed: ()async{
-                          await ImageGallerySaver.saveImage(image);
+                          // await ImageGallerySaver.saveImage(image);
                      },
                     )),
                 const SizedBox(width: 8,),

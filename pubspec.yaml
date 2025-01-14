@@ -4,7 +4,7 @@ publish_to: 'none'
 version: 0.1.0
 
 environment:
-  sdk: ^3.7.0-267.0.dev
+  sdk: ">=3.7.0-209.1.beta <4.0.0"
 
 dependencies:
   flutter:
@@ -17,7 +17,7 @@ dependencies:
   animated_text_kit: ^4.2.2
   dotted_border: ^2.1.0
   image_picker: ^1.1.2
-  image_gallery_saver: ^2.0.3
+  # image_gallery_saver: ^2.0.3
 
 dev_dependencies:
   flutter_test:

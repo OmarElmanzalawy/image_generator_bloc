@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:image_generator_bloc/feature/pages/background_removal/ui/background_removal_screen.dart';
 import 'package:image_generator_bloc/feature/pages/faceswap/ui/faceswap_screen.dart';
 import 'package:image_generator_bloc/feature/pages/home/ui/home_screen.dart';
 import 'package:image_generator_bloc/feature/pages/prompt/ui/create_prompt_screen.dart';
@@ -42,6 +43,7 @@ class MainApp extends StatelessWidget {
         '/createPrompt':  (context) => CreatePromptScreen(),
         '/home': (context) => HomeScreen(),
         '/faceswap': (context) => FaceswapScreen(),
+        '/backgroundRemoval': (context) => BackgroundRemovalScreen(),
       }
     );
   }
