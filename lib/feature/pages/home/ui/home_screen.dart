@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:image_generator_bloc/feature/pages/home/ui/widgets/mode_card.dart';
 import 'package:image_generator_bloc/feature/widgets/image_result_widget.dart';
 import 'package:image_generator_bloc/feature/widgets/loading_widget.dart';
+import 'package:image_generator_bloc/utils/app_utils.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -9,6 +10,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.sizeOf(context);
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(

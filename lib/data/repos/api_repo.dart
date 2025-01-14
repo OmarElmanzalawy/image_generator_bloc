@@ -44,12 +44,18 @@ class ApiRepo {
     String url = "https://api.imagepig.com/faceswap";
     String api_key = dotenv.get("API_KEY");
 
-    
+    final List<int> sourceImageBytes = await File(sourceUrl).readAsBytes();
+    final List<int> targetImageBytes = await File(targetUrl).readAsBytes();
+
+    final String source64 = base64Encode(sourceImageBytes);
+    final String target64 = base64Encode(targetImageBytes);
 
     Map<String,dynamic> headers = {"Api-Key": api_key};
     Map<String,dynamic> body = {
-      'source_image_url': "https://$sourceUrl",
-      'target_image_url': "https://$targetUrl",
+      //TODO PASS THE IMAGES AS BASE64 ENCODED INSTEAD OF PURE STRING PATH
+      //SHOULD BE EASY
+      'source_image_data': source64,
+      'target_image_data': target64,
     };
 
     Dio dio = Dio();

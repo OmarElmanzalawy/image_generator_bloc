@@ -47,5 +47,6 @@
 	<true/>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>We need access to photos in order to do ai processing on them</string>
+	
 </dict>
 </plist>
