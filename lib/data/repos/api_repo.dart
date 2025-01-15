@@ -82,5 +82,43 @@ class ApiRepo {
 
   }
 
+  static Future<Uint8List?> removeBackground({required String imageUrl})async{
+
+    String url = "https://api.imagepig.com/cutout";
+    String api_key = dotenv.get("API_KEY");
+
+     final List<int> imageBytes = await File(imageUrl).readAsBytes();
+
+     final String image64 = base64Encode(imageBytes);
+
+     Map<String,dynamic> headers = {"Api-Key": api_key};
+     Map<String,dynamic> body = {
+      'image_data': image64,
+    };  
+
+    Dio dio = Dio();
+    dio.options = BaseOptions(
+      headers: headers,
+    );
+
+    final response = await dio.post(url,data: body);
+
+    if(response.statusCode == 200){
+      print("SUCCESSFULL Background Removal!");
+      print("Response: $response");
+
+      final String base64Image = response.data['image_data'];
+
+      return base64Decode(base64Image);
+    }
+    else{
+      print("SOMETHING WRONG HAPPENED");
+      print("Status Code: ${response.statusCode}");
+      print("Response: $response");
+      return null;
+    }
+
+  }
+
 
 }

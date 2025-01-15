@@ -5,9 +5,9 @@ sealed class BackgroundrRemovalEvent {}
 
 final class BackgroudRemovalImageSelectionEvent extends BackgroundrRemovalEvent{}
 
-final class BackgroundRemovalSubmitButtonClick extends BackgroundrRemovalEvent{
+final class BackgroundRemovalSubmitButtonClickEvent extends BackgroundrRemovalEvent{
   final String image;
 
-  BackgroundRemovalSubmitButtonClick({required this.image});
+  BackgroundRemovalSubmitButtonClickEvent({required this.image});
   
 }

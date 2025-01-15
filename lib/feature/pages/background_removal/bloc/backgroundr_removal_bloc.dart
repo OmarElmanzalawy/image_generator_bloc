@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:bloc/bloc.dart';
+import 'package:image_generator_bloc/data/repos/api_repo.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:meta/meta.dart';
 
@@ -17,6 +18,7 @@ class BackgroundrRemovalBloc extends Bloc<BackgroundrRemovalEvent, BackgroundrRe
 
   BackgroundrRemovalBloc() : super(BackgroundrRemovalInitial()) {
     on<BackgroudRemovalImageSelectionEvent>(backgroudRemovalImageSelectionEvent);
+    on<BackgroundRemovalSubmitButtonClickEvent>(backgroundRemovalSubmitButtonClickEvent);
     
   }
 
@@ -25,16 +27,25 @@ class BackgroundrRemovalBloc extends Bloc<BackgroundrRemovalEvent, BackgroundrRe
        final XFile? pickedFile = await _picker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
-        // _targetImagePath = pickedFile.path;
-        // emit(FaceswapImageSelectedState(
-        //   targetImagePath: _targetImagePath,
-        //   sourceImagePath: _sourceImagePath,
-        // ));
         imagePath = pickedFile.path;
         emit(BackgroundRemovalPictureSelected(
           imagePath: imagePath
         ));
       }
+
+  }
+
+  FutureOr<void> backgroundRemovalSubmitButtonClickEvent(BackgroundRemovalSubmitButtonClickEvent event, Emitter<BackgroundrRemovalState> emit) async{
+
+        emit(BackgroundRemovalLoadingState());
+    final Uint8List? image = await ApiRepo.removeBackground(imageUrl: event.image);
+    await Future.delayed(Duration(milliseconds: 1500));
+    if(image != null){
+      emit(BackgroundRemovalImageGeneratedSuccessState(imagePath: image));
+    }
+    else{
+      emit(BackgroundRemovalImageGenerateFailureState()); 
+    }
 
   }
 }
