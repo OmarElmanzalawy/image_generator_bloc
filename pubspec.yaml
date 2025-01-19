@@ -17,7 +17,8 @@ dependencies:
   animated_text_kit: ^4.2.2
   dotted_border: ^2.1.0
   image_picker: ^1.1.2
-  # image_gallery_saver: ^2.0.3
+  saver_gallery: ^4.0.1
+  permission_handler: ^11.3.1
 
 dev_dependencies:
   flutter_test:

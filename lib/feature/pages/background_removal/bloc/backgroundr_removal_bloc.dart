@@ -44,7 +44,7 @@ class BackgroundrRemovalBloc extends Bloc<BackgroundrRemovalEvent, BackgroundrRe
       emit(BackgroundRemovalImageGeneratedSuccessState(imagePath: image));
     }
     else{
-      emit(BackgroundRemovalImageGenerateFailureState()); 
+      emit(BackgroundRemovalImageGenerateFailureActionState()); 
     }
 
   }

@@ -22,6 +22,6 @@ final class BackgroundRemovalImageGeneratedSuccessState extends BackgroundrRemov
 
   BackgroundRemovalImageGeneratedSuccessState({required this.imagePath});}
 
-final class BackgroundRemovalImageGenerateFailureState extends BackgroundrRemovalState{}
+final class BackgroundRemovalImageGenerateFailureActionState extends BackgroundrRemovalActionState{}
 
 
