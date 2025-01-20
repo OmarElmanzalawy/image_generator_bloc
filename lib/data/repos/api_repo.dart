@@ -8,6 +8,38 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class ApiRepo {
 
+  static Future<List<String>?> fetchImages()async{
+    List<String> imagePaths = [];
+    Dio dio = Dio();
+    String api_key = dotenv.get("IMAGES_API_KEY");
+    var response = await dio.request(
+    
+    'https://google.serper.dev/images?q=Ai+generated+photo&apiKey=$api_key',
+    options: Options(
+      method: 'GET',
+    ),
+  );
+
+  if (response.statusCode == 200) {
+    try{
+    print("FETCHED IMAGES");
+    final List<dynamic> images = response.data['images'];
+
+    imagePaths = images.map((image) => image['imageUrl'] as String).toList();
+    return imagePaths;
+    }
+    catch(e){
+      throw e;
+    }
+
+  }
+  else {
+    print("ERROR HAPPENNED WHILE FETCHING IMAGES");
+    print(response.statusMessage);
+    return null;
+  }
+  }
+
   static Future<Uint8List?> generateImage(String prompt)async{
     String url = "https://api.imagepig.com/xl";
     String api_key = dotenv.get("API_KEY");

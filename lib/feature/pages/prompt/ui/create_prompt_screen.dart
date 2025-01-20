@@ -71,7 +71,9 @@ class _CreatePromptScreenState extends State<CreatePromptScreen> {
                     ),
                   ),
                   Column(
+                    // mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    SizedBox(height: size.height * 0.1,),
                     Padding(
                       padding: const EdgeInsets.all(15.0),
                       child: FutureBuilder(
@@ -165,8 +167,8 @@ class _CreatePromptScreenState extends State<CreatePromptScreen> {
                                     );
                                   }
                                 },
-                                icon: Icon(Icons.generating_tokens),
-                                label: Text('Generate'),
+                                icon: Icon(Icons.generating_tokens,color: Colors.white,),
+                                label: Text('Generate',style: const TextStyle(color: Colors.white),),
                               ),
                             ),
                           ],

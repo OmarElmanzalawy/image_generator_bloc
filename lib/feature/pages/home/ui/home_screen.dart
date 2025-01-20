@@ -1,11 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_generator_bloc/feature/pages/home/bloc/home_bloc_bloc.dart';
 import 'package:image_generator_bloc/feature/pages/home/ui/widgets/mode_card.dart';
 import 'package:image_generator_bloc/feature/widgets/image_result_widget.dart';
 import 'package:image_generator_bloc/feature/widgets/loading_widget.dart';
 import 'package:image_generator_bloc/utils/app_utils.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+class HomeScreen extends StatefulWidget {
+  HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  final homeBloc = HomeBlocBloc();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    homeBloc.add(FetchImagesEvent());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,13 +69,6 @@ class HomeScreen extends StatelessWidget {
               SizedBox(height: 10,),
               Divider(color: Colors.white12,),
               SizedBox(height: 20,),
-              // Align(
-              //   alignment: Alignment.center,
-              //   child: Padding(
-              //     padding: const EdgeInsets.only(bottom: 25.0),
-              //     child: Text("Pick a mode to Start\nGenerating!",style: TextStyle(fontSize: 22,fontWeight: FontWeight.w300),textAlign: TextAlign.center,),
-              //   ),
-              // ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -86,6 +95,35 @@ class HomeScreen extends StatelessWidget {
                       width: 360,
                     ),
                   ),
+            const SizedBox(height: 40,),
+            Padding(
+              padding: EdgeInsets.only(bottom: size.height * 0.12),
+              child: Text("Generated Images: ",style: TextStyle(fontSize: 25,fontWeight: FontWeight.w300),),
+            ),
+            BlocBuilder(
+              bloc: homeBloc,
+              builder: (context,state){
+                return AnimatedSwitcher(
+                  duration: Duration(milliseconds: 300),
+                //  child: state is HomeBlocLoadingState 
+                // ?
+                //  Center(
+                //   child: CircularProgressIndicator.adaptive(backgroundColor: Colors.deepPurple,),
+                // )
+                // : state is HomeBlocImagesFetchedFailureState ?
+                // Center(child: Text('An error eccured while loading Images'),),
+                // :
+                //TODO COMPLETE THE LIST VIEW UI
+                //MAKE THE DESIGN LIKE THIS: https://dribbble.com/shots/22585172-AI-Artificial-Intelligence-Image-Generator-Mobile-App-Design
+                child: ListView.builder(
+                  itemCount: 8,
+                  itemBuilder: (context,index){
+
+                  },
+                  ),
+                );
+
+              })
        ],
           ),
         )

@@ -34,6 +34,7 @@ class PromptBloc extends Bloc<PromptEvent, PromptState> {
     if(image != null){
       emit(PromptGeneratedSuccessState(image: image));
       // emit(PromptGeneratedImageFailure());
+      // emit(PromptLoadingImageState());
     }
     else{
       emit(PromptGeneratedImageFailure());
