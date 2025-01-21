@@ -102,82 +102,9 @@ class _CreatePromptScreenState extends State<CreatePromptScreen> {
                       isRepeatingAnimation: true,
                       repeatForever: true,
                     ),
-                    Expanded(
-                      child: Container(
-                        padding: EdgeInsets.all(20),
-                        alignment: Alignment.topLeft,
-                        //  height: 200,
-                        // color: Colors.red,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Text(
-                              'Enter your prompt',
-                              style: TextStyle(
-                                fontSize: 22,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            const SizedBox(height: 8),
-                            TextField(
-                              controller: _promptController,
-                              cursorColor: Colors.deepPurple,
-                              decoration: InputDecoration(
-                                hintText: 'Generate a picture of a cat',
-                                hintStyle: TextStyle(color: Colors.white30),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(25),
-                                  ),
-                                  borderSide: BorderSide(color: Colors.grey),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(25),
-                                  ),
-                                  borderSide: BorderSide(
-                                    color: Colors.deepPurple,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(height: 15),
-                            SizedBox(
-                              width: double.maxFinite,
-                              height: 48,
-                              child: ElevatedButton.icon(
-                                style: ButtonStyle(
-                                  shape: WidgetStatePropertyAll(
-                                    RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                  ),
-                                  backgroundColor: WidgetStatePropertyAll(
-                                    Colors.deepPurple,
-                                  ),
-                                ),
-                                onPressed: () {
-                                  // await ApiRepo.generateImage(_promptController.text);
-                                  if (_promptController.text.isNotEmpty) {
-                                    promptBloc.add(
-                                      PromptEnteredEvent(
-                                        prompt: _promptController.text,
-                                      ),
-                                    );
-                                  }
-                                },
-                                icon: Icon(Icons.generating_tokens,color: Colors.white,),
-                                label: Text('Generate',style: const TextStyle(color: Colors.white),),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
                   ],
                 ),
-                ]
+                ],
               );
 
             case PromptGeneratedImageFailure:
@@ -211,50 +138,55 @@ class _CreatePromptScreenState extends State<CreatePromptScreen> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            TextField(
-                              controller: _promptController,
-                              cursorColor: Colors.deepPurple,
-                              decoration: InputDecoration(
-                                hintText: 'Generate a picture of a cat',
-                                hintStyle: TextStyle(color: Colors.white30),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(25),
-                                  ),
-                                  borderSide: BorderSide(color: Colors.grey),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(25),
-                                  ),
-                                  borderSide: BorderSide(
-                                    color: Colors.deepPurple,
-                                  ),
-                                ),
-                              ),
-                            ),
-                
-                            const SizedBox(height: 15),
-                            SizedBox(
-                              width: double.maxFinite,
-                              height: 48,
-                              child: ElevatedButton.icon(
-                                style: ButtonStyle(
-                                  shape: WidgetStatePropertyAll(
-                                    RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8),
+                            Row(
+                              children: [
+                                TextField(
+                                  controller: _promptController,
+                                  cursorColor: Colors.deepPurple,
+                                  decoration: InputDecoration(
+                                    hintText: 'Generate a picture of a cat',
+                                    hintStyle: TextStyle(color: Colors.white30),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(25),
+                                      ),
+                                      borderSide: BorderSide(color: Colors.grey),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(25),
+                                      ),
+                                      borderSide: BorderSide(
+                                        color: Colors.deepPurple,
+                                      ),
                                     ),
                                   ),
-                                  backgroundColor: WidgetStatePropertyAll(
-                                    Colors.deepPurple,
-                                  ),
                                 ),
-                                onPressed: () {
-                                  // await ApiRepo.generateImage(_promptController.text);
-                                },
-                                icon: Icon(Icons.generating_tokens),
-                                label: Text('Generate'),
-                              ),
+                                const SizedBox(width: 10,),
+                                                                InkWell(
+                                  onTap: () async{
+                                 await ApiRepo.generateImage(_promptController.text);
+                                  if (_promptController.text.isNotEmpty) {
+                                    promptBloc.add(
+                                      PromptEnteredEvent(
+                                        prompt: _promptController.text,
+                                      ),
+                                    );
+                                  }
+                                  },
+                                  child: Container(
+                                    // padding: EdgeInsets.all(0),
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      border: Border.all(color: Colors.white)
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(12.0),
+                                      child: Icon(Icons.send,color: Colors.white,),
+                                    ),
+                                  ),
+                                )
+                              ],
                             ),
                           ],
                         ),
@@ -310,51 +242,38 @@ class _CreatePromptScreenState extends State<CreatePromptScreen> {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            const SizedBox(height: 8),
-                            TextField(
-                              controller: _promptController,
-                              cursorColor: Colors.deepPurple,
-                              decoration: InputDecoration(
-                                hintText: 'Generate a picture of a cat',
-                                hintStyle: TextStyle(color: Colors.white30),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(25),
-                                  ),
-                                  borderSide: BorderSide(color: Colors.grey),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(25),
-                                  ),
-                                  borderSide: BorderSide(
-                                    color: Colors.deepPurple,
-                                  ),
-                                ),
-                              ),
-                            ),
-                
-                            const SizedBox(height: 15),
-                            SizedBox(
-                              width: double.maxFinite,
-                              height: 48,
-                              child: ElevatedButton.icon(
-                                style: ButtonStyle(
-                                  shape: WidgetStatePropertyAll(
-                                    RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8),
+                            const SizedBox(height: 20),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Expanded(
+                                  child: TextField(
+                                    controller: _promptController,
+                                    cursorColor: Colors.deepPurple,
+                                    decoration: InputDecoration(
+                                      hintText: 'Generate a picture of a cat',
+                                      hintStyle: TextStyle(color: Colors.white30),
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(25),
+                                        ),
+                                        borderSide: BorderSide(color: Colors.grey),
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(25),
+                                        ),
+                                        borderSide: BorderSide(
+                                          color: Colors.deepPurple,
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                  backgroundColor: WidgetStatePropertyAll(
-                                    Colors.deepPurple,
-                                  ),
-                                  foregroundColor: WidgetStatePropertyAll(
-                                    Colors.white,
-                                  ),
-                                  iconColor: WidgetStatePropertyAll(Colors.white),
                                 ),
-                                onPressed: () {
-                                  // await ApiRepo.generateImage(_promptController.text);
+                                const SizedBox(width: 15,),
+                                InkWell(
+                                  onTap: () async{
+                                 await ApiRepo.generateImage(_promptController.text);
                                   if (_promptController.text.isNotEmpty) {
                                     promptBloc.add(
                                       PromptEnteredEvent(
@@ -362,10 +281,20 @@ class _CreatePromptScreenState extends State<CreatePromptScreen> {
                                       ),
                                     );
                                   }
-                                },
-                                icon: Icon(Icons.generating_tokens),
-                                label: Text('Generate'),
-                              ),
+                                  },
+                                  child: Container(
+                                    // padding: EdgeInsets.all(0),
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      border: Border.all(color: Colors.white)
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(12.0),
+                                      child: Icon(Icons.send,color: Colors.white,),
+                                    ),
+                                  ),
+                                )
+                              ],
                             ),
                           ],
                         ),

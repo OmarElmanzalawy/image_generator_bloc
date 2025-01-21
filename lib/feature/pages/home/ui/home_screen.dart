@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:image_generator_bloc/feature/pages/home/bloc/home_bloc_bloc.dart';
+import 'package:image_generator_bloc/feature/pages/home/ui/widgets/image_card.dart';
 import 'package:image_generator_bloc/feature/pages/home/ui/widgets/mode_card.dart';
 import 'package:image_generator_bloc/feature/widgets/image_result_widget.dart';
 import 'package:image_generator_bloc/feature/widgets/loading_widget.dart';
@@ -64,8 +66,8 @@ class _HomeScreenState extends State<HomeScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: 120,),
-              Text("Hello,",style: TextStyle(fontSize: 25,fontWeight: FontWeight.w300),),
-              Text("Omar Elmanzalawy",style: TextStyle(fontSize: 25,fontWeight: FontWeight.w400),),
+              Text("Hello",style: TextStyle(fontSize: 25,fontWeight: FontWeight.w300),),
+              Text("Let's Start Creating! ✨",style: TextStyle(fontSize: 25,fontWeight: FontWeight.w400),),
               SizedBox(height: 10,),
               Divider(color: Colors.white12,),
               SizedBox(height: 20,),
@@ -97,33 +99,40 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
             const SizedBox(height: 40,),
             Padding(
-              padding: EdgeInsets.only(bottom: size.height * 0.12),
+              padding: EdgeInsets.only(bottom: size.height * 0.03),
               child: Text("Generated Images: ",style: TextStyle(fontSize: 25,fontWeight: FontWeight.w300),),
             ),
-            BlocBuilder(
-              bloc: homeBloc,
-              builder: (context,state){
-                return AnimatedSwitcher(
-                  duration: Duration(milliseconds: 300),
-                //  child: state is HomeBlocLoadingState 
-                // ?
-                //  Center(
-                //   child: CircularProgressIndicator.adaptive(backgroundColor: Colors.deepPurple,),
-                // )
-                // : state is HomeBlocImagesFetchedFailureState ?
-                // Center(child: Text('An error eccured while loading Images'),),
-                // :
-                //TODO COMPLETE THE LIST VIEW UI
-                //MAKE THE DESIGN LIKE THIS: https://dribbble.com/shots/22585172-AI-Artificial-Intelligence-Image-Generator-Mobile-App-Design
-                child: ListView.builder(
-                  itemCount: 8,
-                  itemBuilder: (context,index){
-
-                  },
-                  ),
-                );
-
-              })
+            Expanded(
+              child: BlocBuilder(
+                bloc: homeBloc,
+                builder: (context,state){
+                  return AnimatedSwitcher(
+                    duration: Duration(milliseconds: 300),
+                   child: state is HomeBlocLoadingState 
+                  ?
+                   Center(
+                    child: CircularProgressIndicator.adaptive(backgroundColor: Colors.deepPurple,),
+                  )
+                  : state is HomeBlocImagesFetchedFailureState ?
+                  Center(child: Text('An error eccured while loading Images'),)
+                  :
+                  //TODO COMPLETE THE LIST VIEW UI
+                  //MAKE THE DESIGN LIKE THIS: https://dribbble.com/shots/22585172-AI-Artificial-Intelligence-Image-Generator-Mobile-App-Design
+                  SingleChildScrollView(
+                    child: StaggeredGrid.count(
+                              crossAxisCount: 2, // Two columns
+                              mainAxisSpacing: 10,
+                              crossAxisSpacing: 10,
+                              children: List.generate(8, (index) {
+                                final double height = (index % 4 == 1 || index % 4 == 3) ? 100.0 : 200.0;
+                                final images = state as HomeBlocImagesFetchedSuccessState;
+                                return ImageCard(height: height,imagePath: images.images![index],);
+                              }),
+                    ),
+                  ));
+              
+                }),
+            ),
        ],
           ),
         )
