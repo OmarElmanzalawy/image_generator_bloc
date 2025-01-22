@@ -14,7 +14,7 @@ class ApiRepo {
     String api_key = dotenv.get("IMAGES_API_KEY");
     var response = await dio.request(
     
-    'https://google.serper.dev/images?q=Ai+generated+photo&apiKey=$api_key',
+    'https://google.serper.dev/images?q=Ai+generated+art&apiKey=$api_key',
     options: Options(
       method: 'GET',
     ),
