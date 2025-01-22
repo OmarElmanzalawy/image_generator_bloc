@@ -273,7 +273,7 @@ class _CreatePromptScreenState extends State<CreatePromptScreen> {
                                 const SizedBox(width: 15,),
                                 InkWell(
                                   onTap: () async{
-                                 await ApiRepo.generateImage(_promptController.text);
+                                //  await ApiRepo.generateImage(_promptController.text);
                                   if (_promptController.text.isNotEmpty) {
                                     promptBloc.add(
                                       PromptEnteredEvent(
